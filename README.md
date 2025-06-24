@@ -6,6 +6,7 @@
 This project is a real-time **American Sign Language (ASL) hand gesture detection system** that uses your **webcam** to recognize signs (A–Z and 0–9). It leverages **MediaPipe** for hand tracking and a **Random Forest Classifier** for gesture classification. The system is lightweight, fast, and runs directly in your browser (via Streamlit) or desktop.
 
 ---
+![Screenshot 2025-06-24 225557](https://github.com/user-attachments/assets/04a6532d-0984-4982-a57b-ef801e63bc10)
 
 ## 🚀 Features
 
@@ -35,7 +36,7 @@ This project is a real-time **American Sign Language (ASL) hand gesture detectio
 
 | Tech | Purpose |
 |------|---------|
-| **Python 3.x** | Core programming language |
+| **Python 3.10** | Core programming language |
 | **MediaPipe** | Real-time hand landmark detection |
 | **OpenCV** | Webcam handling and image processing |
 | **scikit-learn** | Model training (Random Forest) |
