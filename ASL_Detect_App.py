@@ -2,23 +2,18 @@ import pickle
 import cv2
 import mediapipe as mp
 import numpy as np
+import streamlit as st
+from PIL import Image
 
 # Load trained model
 model_dict = pickle.load(open('./model.p', 'rb'))
 model = model_dict['model']
 
-# Try camera index 0 (change if needed)
-cap = cv2.VideoCapture(0)
-
-if not cap.isOpened():
-    print("❌ Error: Could not open webcam.")
-    exit()
-
 # Initialize MediaPipe
 mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
-hands = mp_hands.Hands(static_image_mode=True, min_detection_confidence=0.3)
+hands = mp_hands.Hands(static_image_mode=False, min_detection_confidence=0.3)
 
 # Class label mapping
 labels_dict = {
@@ -30,14 +25,21 @@ labels_dict = {
     36: 'Empty'
 }
 
-while True:
-    data_aux = []
-    x_, y_ = [], []
+st.title("🤟 Real-time Sign Language Detection")
+run = st.checkbox('Start Webcam')
 
+FRAME_WINDOW = st.image([])
+
+cap = cv2.VideoCapture(0)
+
+while run:
     ret, frame = cap.read()
     if not ret:
-        print("❌ Failed to grab frame.")
-        continue
+        st.error("❌ Failed to capture frame from webcam.")
+        break
+
+    data_aux = []
+    x_, y_ = [], []
 
     H, W, _ = frame.shape
     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -59,7 +61,7 @@ while True:
                 data_aux.append(lm.x - min(x_))
                 data_aux.append(lm.y - min(y_))
 
-            if len(data_aux) == 42:  # 21 landmarks * 2
+            if len(data_aux) == 42:
                 x1 = int(min(x_) * W) - 10
                 y1 = int(min(y_) * H) - 10
                 x2 = int(max(x_) * W) + 10
@@ -72,10 +74,7 @@ while True:
                 cv2.putText(frame, predicted_character, (x1, y1 - 10),
                             cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 0), 3, cv2.LINE_AA)
 
-    cv2.imshow('Sign Language Detection', frame)
+    FRAME_WINDOW.image(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
 
-    if cv2.waitKey(1) & 0xFF == 27:  # ESC to exit
-        break
-
+# Release webcam outside loop
 cap.release()
-cv2.destroyAllWindows()
