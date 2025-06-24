@@ -54,16 +54,6 @@ This project is a real-time **American Sign Language (ASL) hand gesture detectio
 
 ---
 
-## 📸 Screenshots
-
-> *(Add screenshots here in your GitHub repo)*
-
-- Confusion Matrix  
-- Classification Report  
-- Real-time prediction in webcam feed  
-
----
-
 ## 🔮 Future Scope
 
 - 🔤 Sentence-level sign recognition (gesture sequences)
