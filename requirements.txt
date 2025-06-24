@@ -1,6 +1,5 @@
-streamlit
+gradio
 opencv-python
 mediapipe
 numpy
-Pillow  # required for Streamlit image support
 scikit-learn
